@@ -1,10 +1,33 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened">
-    Sidenav
+  <mat-sidenav #sidenav class="sidenav" mode="side" [(opened)]="opened">
+    <mat-form-field>
+      <mat-label>Select a Category</mat-label>
+      <mat-select [(value)]="category">
+        <mat-option>None</mat-option>
+        <mat-option value="geology">Geology</mat-option>
+        <mat-option value="hydrography">Hydrography</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="category == 'geology'">
+      <mat-label>Select a Layer</mat-label>
+      <mat-select [(value)]="layer">
+        <mat-option>None</mat-option>
+        <mat-option value="surfaceGeology">Surface Geology</mat-option>
+        <mat-option value="bedrockGeology">Bedrock Geology</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="category == 'hydrography'">
+      <mat-label>Select a Layer</mat-label>
+      <mat-select [(value)]="layer">
+        <mat-option>None</mat-option>
+        <mat-option value="surfaceWater">Surface Water</mat-option>
+        <mat-option value="groundWater">Ground Water</mat-option>
+      </mat-select>
+    </mat-form-field>
   </mat-sidenav>
 
   <mat-sidenav-content class="sidenav-content">
-    <button *ngIf="opened" mat-button (click)="sidenav.toggle()">Close</button>
-    <button *ngIf="!opened" mat-button (click)="sidenav.toggle()">Open</button>
+    <button mat-raised-button *ngIf="opened" (click)="sidenav.toggle()">Close</button>
+    <button mat-raised-button *ngIf="!opened" (click)="sidenav.toggle()">Open</button>
   </mat-sidenav-content>
 </mat-sidenav-container>

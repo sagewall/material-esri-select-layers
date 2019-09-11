@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RouteSelectLayersComponent implements OnInit {
 
+  category: string;
+  layer: string;
+
   constructor() { }
 
   ngOnInit() {
