@@ -1,0 +1,10 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+    Sidenav
+  </mat-sidenav>
+
+  <mat-sidenav-content class="sidenav-content">
+    <button *ngIf="opened" mat-button (click)="sidenav.toggle()">Close</button>
+    <button *ngIf="!opened" mat-button (click)="sidenav.toggle()">Open</button>
+  </mat-sidenav-content>
+</mat-sidenav-container>
