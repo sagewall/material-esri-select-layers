@@ -4,6 +4,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MapComponent } from '../map/map.component';
 import { RouteSelectLayersComponent } from './route-select-layers.component';
 
 describe('RouteSelectLayersComponent', () => {
@@ -12,7 +13,10 @@ describe('RouteSelectLayersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RouteSelectLayersComponent],
+      declarations: [
+        MapComponent,
+        RouteSelectLayersComponent
+      ],
       imports: [
         MatButtonModule,
         MatCheckboxModule,

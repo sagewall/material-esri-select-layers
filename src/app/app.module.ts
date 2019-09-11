@@ -9,11 +9,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouteSelectLayersComponent } from './route-select-layers/route-select-layers.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RouteSelectLayersComponent
+    RouteSelectLayersComponent,
+    MapComponent
   ],
   imports: [
     FormsModule,
