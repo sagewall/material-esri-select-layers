@@ -86,11 +86,11 @@ export class MapComponent implements OnInit, OnChanges {
         FeatureLayer
       ]) => {
         if (this.featureLayerUrl) {
-          const mapImageLayer = new FeatureLayer({
+          const featureLayer = new FeatureLayer({
             url: this.featureLayerUrl
           });
           this.mapView.map.removeAll();
-          this.mapView.map.add(mapImageLayer);
+          this.mapView.map.add(featureLayer);
         } else {
           if (this.mapView && this.mapView.map) {
             this.mapView.map.removeAll();
