@@ -8,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class RouteSelectLayersComponent implements OnInit {
 
   private layer: string;
+  opened: boolean;
   featureLayerUrl: string;
-
   selectedCategory: string;
 
   set selectedLayer(value) {
