@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class RouteSelectLayersComponent implements OnInit {
 
   private layer: string;
-  private mapLayer: any;
+  featureLayerUrl: string;
 
   selectedCategory: string;
 
@@ -16,29 +16,23 @@ export class RouteSelectLayersComponent implements OnInit {
     this.layer = value;
 
     switch (value) {
-      case 'soils': {
-        this.mapLayer = 'https://landscape11.arcgis.com/arcgis/rest/services/USA_Soils_Map_Units/mapserver';
+      case 'stadiums': {
+        this.featureLayerUrl = 'https://services1.arcgis.com/kl2GDQGD7Il9fuUc/arcgis/rest/services/MLB_Stadiums/FeatureServer/0';
         break;
       }
-      case 'surfaceGeology': {
-        this.mapLayer = 'https://landscape1.arcgis.com/arcgis/rest/services/USA_Geology_Units/MapServer';
+      case 'historicPoints': {
+        this.featureLayerUrl = 'https://services1.arcgis.com/kl2GDQGD7Il9fuUc/arcgis/rest/services/Historic_Place/FeatureServer/0';
         break;
       }
-      case 'surfaceWater': {
-        this.mapLayer = 'https://landscape2.arcgis.com/arcgis/rest/services/USA_Surface_Water/ImageServer';
-        break;
-      }
-      case 'aquifers': {
-        this.mapLayer = 'https://landscape2.arcgis.com/arcgis/rest/services/USA_Surface_Water/ImageServer';
+      case 'historicAreas': {
+        this.featureLayerUrl = 'https://services1.arcgis.com/kl2GDQGD7Il9fuUc/arcgis/rest/services/Historic_Area/FeatureServer/0';
         break;
       }
       default: {
-        this.mapLayer = '';
+        this.featureLayerUrl = null;
         break;
       }
     }
-
-    this.switchMapLayer(value);
   }
 
   get selectedLayer(): string {
@@ -48,10 +42,6 @@ export class RouteSelectLayersComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-  }
-
-  switchMapLayer(value) {
-    console.log(this.mapLayer);
   }
 
 }

@@ -15,11 +15,9 @@ export class MapComponent implements OnInit, OnChanges {
   webMap: esri.WebMap;
   webMapPortalId = 'babd5a79678a47b6b3654768530863f8';
   webMapProperties: esri.WebMapProperties;
-  spatialReference: esri.SpatialReference;
-  spatialReferenceProperties: esri.SpatialReferenceProperties;
 
   @Input()
-  mapLayer: any;
+  featureLayerUrl: string;
 
   @Output()
   mapLoaded = new EventEmitter<boolean>();
@@ -37,21 +35,14 @@ export class MapComponent implements OnInit, OnChanges {
       'esri/geometry/SpatialReference',
     ], this.esriLoaderOptions)
       .then(([
-        WebMap,
-        SpatialReference
+        WebMap
       ]) => {
         this.webMapProperties = {
           portalItem: {
             id: this.webMapPortalId
           }
         };
-
         this.webMap = new WebMap(this.webMapProperties);
-
-        this.spatialReferenceProperties = {
-          wkid: 3857
-        };
-        this.spatialReference = new SpatialReference(this.spatialReferenceProperties);
       });
   }
 
@@ -60,24 +51,20 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.createMapView();
+    this.changeMapLayer();
   }
 
   createMapView() {
-
     loadModules([
       'esri/views/MapView'
-
     ], this.esriLoaderOptions)
       .then(([
         MapView
       ]) => {
-
         this.mapViewProperties = {
           container: this.mapViewNodeElementRef.nativeElement,
           map: this.webMap
         };
-
         this.mapView = new MapView(this.mapViewProperties);
         this.mapView.when(() => {
           // All the resources in the MapView and the map have loaded. Now execute additional processes
@@ -85,6 +72,30 @@ export class MapComponent implements OnInit, OnChanges {
         }, err => {
           console.error(err);
         });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  changeMapLayer() {
+    loadModules([
+      'esri/layers/FeatureLayer'
+    ], this.esriLoaderOptions)
+      .then(([
+        FeatureLayer
+      ]) => {
+        if (this.featureLayerUrl) {
+          const mapImageLayer = new FeatureLayer({
+            url: this.featureLayerUrl
+          });
+          this.mapView.map.removeAll();
+          this.mapView.map.add(mapImageLayer);
+        } else {
+          if (this.mapView && this.mapView.map) {
+            this.mapView.map.removeAll();
+          }
+        }
       })
       .catch(err => {
         console.error(err);
