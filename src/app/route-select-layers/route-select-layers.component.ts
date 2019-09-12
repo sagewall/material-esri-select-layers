@@ -8,11 +8,20 @@ import { Component, OnInit } from '@angular/core';
 export class RouteSelectLayersComponent implements OnInit {
 
   private layer: string;
+  private category: string;
   opened: boolean;
   featureLayerUrl: string;
-  selectedCategory: string;
 
-  set selectedLayer(value) {
+  set selectedCategory(value: string) {
+    this.category = value;
+    this.featureLayerUrl = null;
+  }
+
+  get selectedCategory(): string {
+    return this.category;
+  }
+
+  set selectedLayer(value: string) {
     this.layer = value;
 
     switch (value) {
