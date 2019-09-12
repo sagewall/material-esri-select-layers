@@ -122,8 +122,15 @@
               "devServerTarget": "material-esri-select-layers:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "/material-esri-select-layers/"
+          }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "material-esri-select-layers"
 }
