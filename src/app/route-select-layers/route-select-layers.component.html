@@ -1,34 +1,30 @@
 <mat-sidenav-container class="sidenav-container">
+
   <mat-sidenav #sidenav class="sidenav" mode="side" [(opened)]="opened">
+
     <mat-form-field>
       <mat-label>Select a Category</mat-label>
       <mat-select [(value)]="selectedCategory">
-        <mat-option>None</mat-option>
-        <mat-option value="baseball">Baseball</mat-option>
-        <mat-option value="historicPlaces">Historic Places</mat-option>
+        <mat-option value="None">None</mat-option>
+        <mat-option *ngFor="let layerCategory of layerCategories" [value]="layerCategory.category">
+          {{layerCategory.category}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field *ngIf="selectedCategory == 'baseball'">
+
+    <mat-form-field *ngIf="layers">
       <mat-label>Select a Layer</mat-label>
       <mat-select [(value)]="selectedLayer">
         <mat-option>None</mat-option>
-        <mat-option value="stadiums">Baseball Stadiums</mat-option>
+        <mat-option *ngFor="let layer of layers" [value]="layer">{{layer.name}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field *ngIf="selectedCategory == 'historicPlaces'">
-      <mat-label>Select a Layer</mat-label>
-      <mat-select [(value)]="selectedLayer">
-        <mat-option>None</mat-option>
-        <mat-option value="historicPoints">Historic Points</mat-option>
-        <mat-option value="historicAreas">Historic Areas</mat-option>
-      </mat-select>
-    </mat-form-field>
+
   </mat-sidenav>
 
   <mat-sidenav-content class="sidenav-content">
     <button mat-raised-button *ngIf="opened" (click)="sidenav.toggle()">Close Layer Selection</button>
     <button mat-raised-button *ngIf="!opened" (click)="sidenav.toggle()">Open Layer Selection</button>
-    {{selectedLayer}}
-    <app-map [featureLayerUrl]="featureLayerUrl"></app-map>
+    <app-map [featureLayerUrl]="selectedLayer?.url"></app-map>
   </mat-sidenav-content>
+
 </mat-sidenav-container>
