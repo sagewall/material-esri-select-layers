@@ -6,8 +6,8 @@
       <mat-label>Select a Category</mat-label>
       <mat-select [(value)]="selectedCategory">
         <mat-option value="None">None</mat-option>
-        <mat-option *ngFor="let layerCategory of layerCategories" [value]="layerCategory.category">
-          {{layerCategory.category}}</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category">
+          {{category}}</mat-option>
       </mat-select>
     </mat-form-field>
 

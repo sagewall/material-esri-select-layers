@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Layer } from '../layer';
-import { LayerCategory } from '../layer-category';
+import { LayerService } from '../layer.service';
+
 
 @Component({
   selector: 'app-route-select-layers',
@@ -9,51 +10,32 @@ import { LayerCategory } from '../layer-category';
 })
 export class RouteSelectLayersComponent {
 
-  private category: string;
-
-  layerCategories: LayerCategory[];
-  layers: Layer[];
-  selectedLayer: Layer;
   opened: boolean;
 
+  get categories(): string[] {
+    return this.layerService.categories;
+  }
+
   set selectedCategory(value: string) {
-    this.category = value;
-    this.selectedLayer = null;
-    if (this.category === 'None') {
-      this.layers = null;
-    } else {
-      this.layers = this.layerCategories.find(i => i.category === value).layers;
-    }
+    this.layerService.setSelectedCategory(value);
   }
 
   get selectedCategory(): string {
-    return this.category;
+    return this.layerService.selectedCategory;
   }
 
-  constructor() {
-    this.layerCategories = [
-      {
-        category: 'Baseball',
-        layers: [
-          {
-            name: 'Stadiums',
-            url: 'https://services1.arcgis.com/kl2GDQGD7Il9fuUc/arcgis/rest/services/MLB_Stadiums/FeatureServer/0'
-          }
-        ]
-      },
-      {
-        category: 'Historic Places',
-        layers: [
-          {
-            name: 'Historic Points',
-            url: 'https://services1.arcgis.com/kl2GDQGD7Il9fuUc/arcgis/rest/services/Historic_Place/FeatureServer/0'
-          },
-          {
-            name: 'Historic Areas',
-            url: 'https://services1.arcgis.com/kl2GDQGD7Il9fuUc/arcgis/rest/services/Historic_Area/FeatureServer/0'
-          }
-        ]
-      }
-    ];
+  set selectedLayer(value: Layer) {
+    this.layerService.selectedLayer = value;
   }
+
+  get selectedLayer(): Layer {
+    return this.layerService.selectedLayer;
+  }
+
+  get layers(): Layer[] {
+    return this.layerService.layers;
+  }
+
+  constructor(private layerService: LayerService) { }
+
 }
