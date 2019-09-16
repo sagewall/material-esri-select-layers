@@ -15,9 +15,13 @@ export class MapComponent implements OnInit, OnChanges {
   webMap: esri.WebMap;
   webMapPortalId = 'babd5a79678a47b6b3654768530863f8';
   webMapProperties: esri.WebMapProperties;
+  featureLayer: esri.FeatureLayer;
 
   @Input()
   featureLayerUrl: string;
+
+  @Input()
+  definitionExpression: string;
 
   @Output()
   mapLoaded = new EventEmitter<boolean>();
@@ -86,11 +90,26 @@ export class MapComponent implements OnInit, OnChanges {
         FeatureLayer
       ]) => {
         if (this.featureLayerUrl) {
-          const featureLayer = new FeatureLayer({
+
+          this.featureLayer = new FeatureLayer({
             url: this.featureLayerUrl
           });
+
+          if (this.definitionExpression) {
+            this.featureLayer.definitionExpression = this.definitionExpression;
+          }
+
           this.mapView.map.removeAll();
-          this.mapView.map.add(featureLayer);
+          this.mapView.map.add(this.featureLayer);
+
+          this.featureLayer.when(() => {
+            return this.featureLayer.queryExtent();
+          }).then((response) => {
+            if (response.extent) {
+              this.mapView.goTo(response.extent);
+            }
+          });
+
         } else {
           if (this.mapView && this.mapView.map) {
             this.mapView.map.removeAll();

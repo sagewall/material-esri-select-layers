@@ -19,12 +19,30 @@
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field *ngIf="selectedLayer">
+      <mat-label>Filter By</mat-label>
+      <mat-select [(value)]="selectedUniqueValuesField">
+        <mat-option value="None">None</mat-option>
+        <mat-option *ngFor="let uniqueValueField of selectedLayer.uniqueValueFields" [value]="uniqueValueField">
+          {{uniqueValueField | titlecase}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="uniqueValues.length > 0">
+      <mat-label>Filter Value</mat-label>
+      <mat-select [(value)]="selectedUniqueValue">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let uniqueValue of uniqueValues" [value]="uniqueValue">
+          {{uniqueValue}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
   </mat-sidenav>
 
   <mat-sidenav-content class="sidenav-content">
     <button mat-raised-button *ngIf="opened" (click)="sidenav.toggle()">Close Layer Selection</button>
     <button mat-raised-button *ngIf="!opened" (click)="sidenav.toggle()">Open Layer Selection</button>
-    <app-map [featureLayerUrl]="selectedLayer?.url"></app-map>
+    <app-map [featureLayerUrl]="selectedLayer?.url" [definitionExpression]="definitionExpression"></app-map>
   </mat-sidenav-content>
 
 </mat-sidenav-container>
