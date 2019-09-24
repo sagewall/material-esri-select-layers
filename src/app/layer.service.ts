@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { LayerCategory } from './layer-category';
-import { Layer } from './layer';
 import { loadModules } from 'esri-loader';
+import { Layer } from './layer';
+import { LayerCategory } from './layer-category';
 import esri = __esri;
 
 const LAYERCATEGORIES: LayerCategory[] = [
@@ -45,6 +45,7 @@ export class LayerService {
   selectedUniqueValue: string;
   uniqueValues: string[] = [];
   layers: Layer[];
+  selectedFeatureAttributes: [string, string][] = null;
 
   get categories(): string[] {
     return LAYERCATEGORIES.map(a => a.category);
@@ -62,6 +63,7 @@ export class LayerService {
     this.selectedUniqueValuesField = 'None';
     this.uniqueValues = [];
     this.selectedUniqueValue = null;
+    this.selectedFeatureAttributes = null;
     this.setLayers();
   }
 
@@ -69,6 +71,7 @@ export class LayerService {
     this.selectedLayer = value;
     this.selectedUniqueValuesField = null;
     this.selectedUniqueValue = null;
+    this.selectedFeatureAttributes = null;
     this.uniqueValues = [];
   }
 
@@ -81,6 +84,7 @@ export class LayerService {
   }
 
   setUniqueValues(field: string) {
+    this.selectedFeatureAttributes = null;
     if (field !== 'None') {
       loadModules([
         'esri/renderers/smartMapping/statistics/uniqueValues',
@@ -103,7 +107,6 @@ export class LayerService {
               this.uniqueValues.push(info.value);
             });
           });
-
         });
     } else {
       this.uniqueValues = [];

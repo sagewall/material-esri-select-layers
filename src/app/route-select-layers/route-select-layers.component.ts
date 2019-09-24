@@ -60,6 +60,10 @@ export class RouteSelectLayersComponent {
     }
   }
 
+  get selectedFeatureAttributes(): object {
+    return this.layerService.selectedFeatureAttributes;
+  }
+
   constructor(private layerService: LayerService) { }
 
 }

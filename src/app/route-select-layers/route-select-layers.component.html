@@ -37,6 +37,13 @@
       </mat-select>
     </mat-form-field>
 
+    <div *ngIf="selectedFeatureAttributes">
+      Attributes:
+      <div *ngFor="let attribute of selectedFeatureAttributes">
+        {{attribute[0]}}: {{attribute[1]}}
+      </div>
+    </div>
+
   </mat-sidenav>
 
   <mat-sidenav-content class="sidenav-content">

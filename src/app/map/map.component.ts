@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { loadModules } from 'esri-loader';
+import { LayerService } from '../layer.service';
 import esri = __esri;
 
 @Component({
@@ -29,7 +30,7 @@ export class MapComponent implements OnInit, OnChanges {
   @ViewChild('mapViewNode', { static: false })
   private mapViewNodeElementRef: ElementRef;
 
-  constructor() {
+  constructor(private layerService: LayerService) {
     this.esriLoaderOptions = {
       url: 'https://js.arcgis.com/4.12/',
       css: true
@@ -92,7 +93,8 @@ export class MapComponent implements OnInit, OnChanges {
         if (this.featureLayerUrl) {
 
           this.featureLayer = new FeatureLayer({
-            url: this.featureLayerUrl
+            url: this.featureLayerUrl,
+            outFields: ['*']
           });
 
           if (this.definitionExpression) {
@@ -109,7 +111,7 @@ export class MapComponent implements OnInit, OnChanges {
               this.mapView.goTo(response.extent);
             }
           });
-
+          this.changeMapClickEvent();
         } else {
           if (this.mapView && this.mapView.map) {
             this.mapView.map.removeAll();
@@ -121,4 +123,23 @@ export class MapComponent implements OnInit, OnChanges {
       });
   }
 
+  changeMapClickEvent() {
+    if (this.featureLayerUrl) {
+      this.mapView.on('click', event => {
+        this.mapView.hitTest(event).then(response => {
+          if (response.results.length) {
+            const graphic = response.results.filter(result => {
+              return result.graphic.layer === this.featureLayer;
+            })[0].graphic;
+
+            this.layerService.selectedFeatureAttributes = Object.keys(graphic.attributes).map(key => {
+              return [key, graphic.attributes[key]];
+            });
+          }
+        });
+      });
+    } else {
+      this.layerService.selectedFeatureAttributes = [];
+    }
+  }
 }
